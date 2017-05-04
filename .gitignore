@@ -6,6 +6,8 @@
 # Folders
 _obj
 _test
+src/redis/vendor/github.com/
+.cache
 
 # Architecture specific extensions/prefixes
 *.[568vq]
