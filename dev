@@ -1,4 +1,11 @@
+# For Go Env
 export GOROOT=$(pwd)/deps/go
 export PATH=$PATH:$GOROOT/bin
 export GOPATH=$(pwd)
 export PATH=$PATH:$GOPATH/bin
+
+# For docker Env
+export MACHINE_DOCKER_INSTALL_URL=http://docker-mirror.oss-cn-hangzhou.aliyuncs.com/
+
+# For tools Env
+export PATH=$PATH:$(pwd)/tools
