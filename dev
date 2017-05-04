@@ -1,0 +1,2 @@
+export GOROOT=$(pwd)/deps/go
+export PATH=$PATH:$GOROOT/bin
