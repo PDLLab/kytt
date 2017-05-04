@@ -20,8 +20,7 @@ if [ $? = 0 ]; then
 fi
 
 # 启动redis_server容器
+# TODO 配置文件没生效
 cd ../
-echo $(pwd)
 echo "Start Redis Server Container"
-#docker run --name redis_server -v $(pwd)/data/redis_db:/data -v $(pwd)/conf/redis.conf:/usr/local/etc/redis/redis.conf redis:3.2.8 redis-server /usr/local/etc/redis/redis.conf
-##docker run --name redis_server -d -v $(pwd)/data/redis_db:/var/lib/reids -v $(pwd)/log:/var/log/redis -v $(pwd)/conf/redis.conf:/usr/local/etc/redis/redis.conf redis:3.0 redis-server /usr/local/etc/redis/redis.conf
+docker run --name redis_server -d -v $(pwd)/data/redis_db:/data/db -v $(pwd)/log/redis_log:/data/log -v $(pwd)/conf/redis.conf:/usr/local/etc/redis/redis.conf redis:kytt
