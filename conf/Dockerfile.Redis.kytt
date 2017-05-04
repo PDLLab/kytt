@@ -1,0 +1,7 @@
+FROM redis:3.2.8
+
+RUN mkdir -p /var/log/redis && mkdir -p /usr/local/etc/redis/ && chown redis:redis /var/log/redis && chown redis:redis /usr/local/etc/redis
+VOLUME /var/log/redis
+VOLUME /usr/local/etc/redis
+
+CMD ["redis-server", "/usr/local/etc/redis/redis.conf"]

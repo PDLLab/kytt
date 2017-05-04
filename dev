@@ -9,3 +9,10 @@ export MACHINE_DOCKER_INSTALL_URL=http://docker-mirror.oss-cn-hangzhou.aliyuncs.
 
 # For tools Env
 export PATH=$PATH:$(pwd)/tools
+
+# Create Catalog For Redis
+mkdir -p log
+mkdir -p data/redis_db
+
+# Create Catalog For Redis
+mkdir -p data/mysql_db

@@ -7,6 +7,8 @@
 _obj
 _test
 src/redis/vendor/github.com/
+log/
+data/
 .cache
 
 # Architecture specific extensions/prefixes
