@@ -77,7 +77,7 @@ func (RC *RedisClient) SetHeadlineFollower(headlineID, followerID string) {
     
 func (RC *RedisClient) GetHeadlineFollower(headlineID string) []string {
     Logger.Println("[GetHeadlineFollower Begin] headlineID = ", headlineID)
-    prefix := "user:follower:"
+    prefix := "headline:follower:"
     key := prefix + headlineID
     ret := GetKeyValue(key, RC.Client)
     all, err := ret.Result()
@@ -100,7 +100,7 @@ func (RC *RedisClient) SetHeadlineCommnet(headlineID, commentUserID string) {
     
 func (RC *RedisClient) GetHeadlineComment(headlineID string) []string {
     Logger.Println("[GetHeadlineComment Begin] headlineID = ", headlineID)
-    prefix := "user:comment:"
+    prefix := "headline:comment:"
     key := prefix + headlineID
     ret := GetKeyValue(key, RC.Client)
     all, err := ret.Result()
@@ -123,7 +123,7 @@ func (RC *RedisClient) SetHeadlineLike(headlineID, likeUserID string) {
     
 func (RC *RedisClient) GetHeadlineLike(headlineID string) []string {
     Logger.Println("[GetHeadlineLike Begin] headlineID = ", headlineID)
-    prefix := "user:like:"
+    prefix := "headline:like:"
     key := prefix + headlineID
     ret := GetKeyValue(key, RC.Client)
     all, err := ret.Result()
@@ -132,6 +132,52 @@ func (RC *RedisClient) GetHeadlineLike(headlineID string) []string {
     }
 
     Logger.Println("[GetHeadlineLike End] all = ", all)
+    return all 
+}
+
+func (RC *RedisClient) SetCommentCommnet(commentID, commentUserID string) {
+    Logger.Println("[SetCommentComment Begin] commentID = ", commentID, " commentUserID = ", commentUserID)
+    prefix := "comment:comment:"
+    key := prefix + commentID
+    value := commentUserID
+    SetKeyValue(key, value, RC.Client) 
+    Logger.Println("[SetCommentComment End]")
+}
+    
+func (RC *RedisClient) GetCommentComment(commentID string) []string {
+    Logger.Println("[GetCommentComment Begin] commentID = ", commentID)
+    prefix := "comment:comment:"
+    key := prefix + commentID
+    ret := GetKeyValue(key, RC.Client)
+    all, err := ret.Result()
+    if err != nil {
+        Logger.Panicln("[GetCommentComment] err = ", err)
+    }
+
+    Logger.Println("[GetCommentComment End] all = ", all)
+    return all 
+}
+
+func (RC *RedisClient) SetCommentLike(commentID, likeUserID string) {
+    Logger.Println("[SetCommentLike Begin] commentID = ", commentID, " likeUserID = ", likeUserID)
+    prefix := "comment:like:"
+    key := prefix + commentID
+    value := likeUserID
+    SetKeyValue(key, value, RC.Client) 
+    Logger.Println("[SetCommentLike End]")
+}
+    
+func (RC *RedisClient) GetCommentLike(commentID string) []string {
+    Logger.Println("[GetCommentLike Begin] commentID = ", commentID)
+    prefix := "comment:like:"
+    key := prefix + commentID
+    ret := GetKeyValue(key, RC.Client)
+    all, err := ret.Result()
+    if err != nil {
+        Logger.Panicln("[GetCommentLike] err = ", err)
+    }
+
+    Logger.Println("[GetCommentLike End] all = ", all)
     return all 
 }
 
