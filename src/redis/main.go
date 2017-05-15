@@ -66,6 +66,29 @@ func (RC *RedisClient) GetUserFollower(userID string) []string {
     return all 
 }
 
+func (RC *RedisClient) SetUserFollowing(userID string, followingID string) {
+    Logger.Println("[SetUserFollowing Begin] userID = ", userID, " followingID = ", followingID)
+    prefix := "user:following:"
+    key := prefix + userID
+    value := followingID
+    SetKeyValue(key, value, RC.Client) 
+    Logger.Println("[SetUserFollowing End]")
+}
+
+func (RC *RedisClient) GetUserFollowing(userID string) []string {
+    Logger.Println("[GetUserFollowing Begin] userID = ", userID)
+    prefix := "user:following:"
+    key := prefix + userID
+    ret := GetKeyValue(key, RC.Client)
+    all, err := ret.Result()
+    if err != nil {
+        Logger.Panicln("[GetUserFollowing] err = ", err)
+    }
+
+    Logger.Println("[GetUserFollowing End] all = ", all)
+    return all 
+}
+
 func (RC *RedisClient) SetHeadlineFollower(headlineID, followerID string) {
     Logger.Println("[SetHeadlineFollower Begin] headlineID = ", headlineID, " followerID = ", followerID)
     prefix := "headline:follower:"
@@ -178,6 +201,29 @@ func (RC *RedisClient) GetCommentLike(commentID string) []string {
     }
 
     Logger.Println("[GetCommentLike End] all = ", all)
+    return all 
+}
+
+func (RC *RedisClient) SetUserFollowHeadline(userID string, followHeadlineID string) {
+    Logger.Println("[SetUserFollowHeadline Begin] userID = ", userID, " followHeadlineID = ", followHeadlineID)
+    prefix := "user:follow:headline:"
+    key := prefix + userID
+    value := followHeadlineID
+    SetKeyValue(key, value, RC.Client) 
+    Logger.Println("[SetUserFollowHeadline End]")
+}
+
+func (RC *RedisClient) GetUserFollowHeadline(userID string) []string {
+    Logger.Println("[GetUserFollowHeadline Begin] userID = ", userID)
+    prefix := "user:follow:headline:"
+    key := prefix + userID
+    ret := GetKeyValue(key, RC.Client)
+    all, err := ret.Result()
+    if err != nil {
+        Logger.Panicln("[GetUserFollowHeadline] err = ", err)
+    }
+
+    Logger.Println("[GetUserFollowHeadline End] all = ", all)
     return all 
 }
 
