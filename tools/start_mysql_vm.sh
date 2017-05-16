@@ -18,3 +18,12 @@ if [ $? = 0 ]; then
     docker rm mysql_server
 fi
 
+# 启动mysql_server容器
+cd ../
+echo "Start Mysql Server Container"
+# for production environment
+# docker run --name mysql_server -v $(pwd)/data/mysql_db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
+
+# for testing environment
+docker run --name mysql_server -p 3306:3306 -v $(pwd)/data/mysql_db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
+
