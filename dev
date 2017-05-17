@@ -15,8 +15,7 @@ mkdir -p log
 mkdir -p data/redis_db
 mkdir -p log/redis_log
 
-# Create Catalog For Redis
+# Create Catalog For MySQL 
 mkdir -p data/mysql_db
+mkdir -p data/mysql_db_backup
 
-# Add redis User
-#useradd redis

@@ -8,7 +8,8 @@ _obj
 _test
 src/redis/vendor/github.com/
 log/
-data/
+data/redis_db
+data/mysql_db
 .cache
 
 # Architecture specific extensions/prefixes
