@@ -27,7 +27,9 @@ CREATE TABLE `kytt_feedback` (
   `user_id` int(10) unsigned NOT NULL,
   `time` datetime NOT NULL,
   `content` mediumtext CHARACTER SET utf8,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `kytt_feedback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -49,17 +51,19 @@ DROP TABLE IF EXISTS `kytt_headline`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `kytt_headline` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
   `user_nickname` varchar(64) CHARACTER SET utf8 NOT NULL,
   `title` varchar(128) CHARACTER SET utf8 NOT NULL,
   `content` mediumtext CHARACTER SET utf8 NOT NULL,
   `post_date` datetime NOT NULL,
-  `like_count` int(11) NOT NULL,
-  `comment_count` int(11) NOT NULL,
-  `forward_count` int(11) NOT NULL,
-  `view_count` int(11) NOT NULL,
+  `like_count` int(11) unsigned NOT NULL,
+  `comment_count` int(11) unsigned NOT NULL,
+  `forward_count` int(11) unsigned NOT NULL,
+  `view_count` int(11) unsigned NOT NULL,
   `tag` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `kytt_headline_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -87,7 +91,11 @@ CREATE TABLE `kytt_headline_comment` (
   `content` mediumtext CHARACTER SET utf8 NOT NULL,
   `like_count` int(11) NOT NULL,
   `time` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `headline_id` (`headline_id`),
+  CONSTRAINT `kytt_headline_comment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`),
+  CONSTRAINT `kytt_headline_comment_ibfk_2` FOREIGN KEY (`headline_id`) REFERENCES `kytt_headline` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,7 +119,9 @@ CREATE TABLE `kytt_organization_auth` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `auth_file` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `kytt_organization_auth_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -155,7 +165,7 @@ DROP TABLE IF EXISTS `kytt_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `kytt_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nickname` varchar(64) NOT NULL,
   `realname` varchar(64) DEFAULT NULL,
   `gender` tinyint(1) DEFAULT NULL,
@@ -171,10 +181,10 @@ CREATE TABLE `kytt_user` (
   `active_time` int(11) NOT NULL,
   `is_auth` tinyint(1) NOT NULL,
   `user_state` tinyint(1) NOT NULL,
-  `follower_count` int(11) NOT NULL,
-  `following_count` int(11) NOT NULL,
-  `answer_count` int(11) NOT NULL,
-  `headline_count` int(11) NOT NULL,
+  `follower_count` int(11) unsigned NOT NULL,
+  `following_count` int(11) unsigned NOT NULL,
+  `answer_count` int(11) unsigned NOT NULL,
+  `headline_count` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -202,7 +212,11 @@ CREATE TABLE `kytt_user_activity` (
   `type` varchar(16) CHARACTER SET utf8 NOT NULL,
   `time` int(11) NOT NULL,
   `action_time` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `headline_id` (`headline_id`),
+  CONSTRAINT `kytt_user_activity_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`),
+  CONSTRAINT `kytt_user_activity_ibfk_2` FOREIGN KEY (`headline_id`) REFERENCES `kytt_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -229,7 +243,9 @@ CREATE TABLE `kytt_user_auth_local` (
   `email` varchar(64) DEFAULT NULL,
   `telephone` varchar(16) DEFAULT NULL,
   `password` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `kytt_user_auth_local_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -257,7 +273,9 @@ CREATE TABLE `kytt_user_auth_oauth` (
   `oauth_access_token` varchar(255) CHARACTER SET utf8 NOT NULL,
   `oauth_expires` int(11) DEFAULT NULL,
   `avatar_url` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `kytt_user_auth_oauth_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -279,11 +297,13 @@ DROP TABLE IF EXISTS `kytt_user_tag`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `kytt_user_tag` (
   `int` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
   `school_tag` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `major_tag` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `other` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  PRIMARY KEY (`int`)
+  PRIMARY KEY (`int`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `kytt_user_tag_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -308,7 +328,11 @@ CREATE TABLE `kytt_user_tag_score` (
   `user_id` int(10) unsigned NOT NULL,
   `tag_id` int(10) unsigned NOT NULL,
   `score` float NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `tag_id` (`tag_id`),
+  CONSTRAINT `kytt_user_tag_score_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`),
+  CONSTRAINT `kytt_user_tag_score_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `kytt_tag` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -330,4 +354,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-17 23:50:35
+-- Dump completed on 2017-05-28 15:06:19

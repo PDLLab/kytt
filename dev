@@ -1,7 +1,7 @@
 # For Go Env
-export GOROOT=$(pwd)/deps/go
+export GOROOT=$(pwd)/api/deps/go
 export PATH=$PATH:$GOROOT/bin
-export GOPATH=$(pwd)
+export GOPATH=$(pwd)/api
 export PATH=$PATH:$GOPATH/bin
 
 # For docker Env
