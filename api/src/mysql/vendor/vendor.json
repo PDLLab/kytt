@@ -3,6 +3,16 @@
 	"ignore": "test",
 	"package": [
 		{
+			"path": "appengine/cloudsql",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "Ube1AAmhqrtUybqayzBTI7qWo/4=",
+			"path": "github.com/go-sql-driver/mysql",
+			"revision": "e3f0fdcf52770a162d5a4540ddb8d9957ff456d1",
+			"revisionTime": "2017-06-01T06:26:16Z"
+		},
+		{
 			"checksumSHA1": "gKyBj05YkfuLFruAyPZ4KV9nFp8=",
 			"path": "github.com/julienschmidt/httprouter",
 			"revision": "975b5c4c7c21c0e3d2764200bf2aa8e34657ae6e",
