@@ -12,10 +12,10 @@ export PATH=$PATH:$(pwd)/tools
 
 # Create Catalog For Redis
 mkdir -p log
-mkdir -p data/redis_db
+mkdir -p volumn/redis_db
 mkdir -p log/redis_log
 
 # Create Catalog For MySQL 
-mkdir -p data/mysql_db
-mkdir -p data/mysql_db_backup
+mkdir -p volumn/mysql_db
+mkdir -p backup/mysql_db_backup
 

@@ -15,12 +15,12 @@ fi
 if [ $1 = "dump" ];then
     cd ../
     echo "Start dump data"
-    docker exec mysql_server sh -c 'exec mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" kaoyantoutiao' > ./data/mysql_db_backup/kaoyantoutiao.sql
+    docker exec mysql_server sh -c 'exec mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" kaoyantoutiao' > ./backup/mysql_db_backup/kaoyantoutiao.sql
 fi
 
 if [ $1 = "import" ];then
     cd ../
     echo "Start import data"
     docker exec mysql_server sh -c 'exec mysqladmin -uroot -p"$MYSQL_ROOT_PASSWORD" create kaoyantoutiao'
-    docker exec -i mysql_server sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" kaoyantoutiao' < ./data/mysql_db_backup/kaoyantoutiao.sql
+    docker exec -i mysql_server sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" kaoyantoutiao' < ./backup/mysql_db_backup/kaoyantoutiao.sql
 fi

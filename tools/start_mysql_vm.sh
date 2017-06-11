@@ -25,5 +25,5 @@ echo "Start Mysql Server Container"
 # docker run --name mysql_server -v $(pwd)/data/mysql_db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
 
 # for testing environment
-docker run --name mysql_server -p 3306:3306 -v $(pwd)/data/mysql_db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=kytt207 -d mysql:5.7
+docker run --name mysql_server -p 3306:3306 -v $(pwd)/volumn/mysql_db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=kytt207 -d mysql:5.7
 

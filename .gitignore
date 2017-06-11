@@ -11,10 +11,9 @@ _test
 api/src/redis/vendor/github.com/
 api/src/mysql/vendor/github.com/
 log/
-data/redis_db
-data/mysql_db
+volumn/redis_db
+volumn/mysql_db
 .cache
-web/node_modules/
 
 # Architecture specific extensions/prefixes
 *.[568vq]

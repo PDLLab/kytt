@@ -10,6 +10,7 @@ import (
     "time"
     "os"
     "io"
+    "io/ioutil"
 )
 
 const (
@@ -52,6 +53,27 @@ type Content struct {
     Content         string              `json:"content"`
 }
 
+type BaseHeadline struct {
+    Id              string              `json:"id"`
+    UserId          string              `json:"userId"`
+    UserNickname    string              `json:"userNickname"`
+    Title           string              `json:"title"`
+    Content         string              `json:"content"`
+    PostDate        string              `json:"postDate"`
+    LikeCount       int                 `json:"likeCount"`
+    CommentCount    int                 `json:"commentCount"`
+    ForwardCount    int                 `json:"forwardCount"`
+    ViewCount       int                 `json:"viewCount"`
+    Tag             string              `json:"tag"`
+    TitleImage      string              `json:"titleImage"`
+    Summary         string              `json:"summary"`
+}
+
+type Headline struct {
+    BaseHeadline
+    IsOfficial      bool                `json:"isOfficial"`
+}
+
 func (this *Server) StmtPrepare(operation string) *sql.Stmt {
     stmt, err := this.mDB.Prepare(operation)
     if err != nil {
@@ -69,14 +91,13 @@ func (this *Server) InitRouter() {
     this.mRouter.GET("/v1/headlines/content/:headlineId", this.GetHeadlineContent)
     this.mRouter.GET("/v1/answer/content/:answerId", this.GetAnswerContent)
     this.mRouter.POST("/v1/headlines", this.PostHeadlines)
-    this.mRouter.POST("/v1/questions", this.PostQuestions)
-    this.mRouter.POST("/v1/answers", this.PostAnswers)
+    //this.mRouter.POST("/v1/questions", this.PostQuestions)
+    //this.mRouter.POST("/v1/answers", this.PostAnswers)
 
 
     this.mRouter.POST("/v1/signup", this.PostSignup)
     this.mRouter.POST("/v1/signin", this.PostSignin)
 
-    this.mRouter.POST("/v1/headlines", this.PostHeadlines)
     this.mRouter.GET("/v1/headlines", this.GetHeadlines)
 //    this.mRouter.GET("/v1/headlines/:headlineId", this.GetHeadline)
 //    this.mRouter.POST("/v1/headlines/:headlineId/comments", this.PostHeadlineComments)
@@ -147,6 +168,17 @@ func (this *Server) PostSignin(w http.ResponseWriter, r *http.Request, ps httpro
 }
 
 func (this *Server) PostHeadlines(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+    content, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+        Logger.Println("[PostHeadlines] err = ", err)
+    }
+    var headline Headline
+    err = json.Unmarshal(content, &headline)
+    if err != nil {
+        Logger.Println("[PostHeadlines] err = ", err)
+    }
+    Logger.Println("headline = ", headline)
+    w.WriteHeader(http.StatusCreated)
 }
 
 func (this *Server) GetHeadlines(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
