@@ -152,7 +152,6 @@ func (this *Server) InitRouter() {
     this.mRouter.POST("/v1/questions", this.PostQuestions)
     this.mRouter.POST("/v1/answers", this.PostAnswers)
 
-
     this.mRouter.POST("/v1/users", this.PostUsers)
     this.mRouter.POST("/v1/signin", this.PostSignin)
 
