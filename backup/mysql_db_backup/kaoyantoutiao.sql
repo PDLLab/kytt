@@ -16,6 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `kytt_answer`
+--
+
+DROP TABLE IF EXISTS `kytt_answer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kytt_answer` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `question_id` int(10) unsigned NOT NULL,
+  `question_title` varchar(128) NOT NULL,
+  `user_nickname` varchar(64) NOT NULL,
+  `cotent` mediumtext NOT NULL,
+  `like_count` int(11) NOT NULL,
+  `comment_count` int(11) NOT NULL,
+  `answer_date` datetime NOT NULL,
+  `title_image` varchar(128) DEFAULT NULL,
+  `summary` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kytt_answer`
+--
+
+LOCK TABLES `kytt_answer` WRITE;
+/*!40000 ALTER TABLE `kytt_answer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kytt_answer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `kytt_feedback`
 --
 
@@ -40,6 +72,74 @@ CREATE TABLE `kytt_feedback` (
 LOCK TABLES `kytt_feedback` WRITE;
 /*!40000 ALTER TABLE `kytt_feedback` DISABLE KEYS */;
 /*!40000 ALTER TABLE `kytt_feedback` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `kytt_headline`
+--
+
+DROP TABLE IF EXISTS `kytt_headline`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kytt_headline` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `user_nickname` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `title` varchar(128) CHARACTER SET utf8 NOT NULL,
+  `content` mediumtext CHARACTER SET utf8 NOT NULL,
+  `post_date` datetime NOT NULL,
+  `like_count` int(11) unsigned NOT NULL,
+  `comment_count` int(11) unsigned NOT NULL,
+  `forward_count` int(11) unsigned NOT NULL,
+  `view_count` int(11) unsigned NOT NULL,
+  `tag` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `title_image` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
+  `summary` varchar(512) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `kytt_headline_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kytt_headline`
+--
+
+LOCK TABLES `kytt_headline` WRITE;
+/*!40000 ALTER TABLE `kytt_headline` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kytt_headline` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `kytt_headline_comment`
+--
+
+DROP TABLE IF EXISTS `kytt_headline_comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kytt_headline_comment` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `headline_id` int(10) unsigned NOT NULL,
+  `user_nickname` varchar(64) NOT NULL,
+  `content` mediumtext NOT NULL,
+  `like_count` int(11) NOT NULL,
+  `time` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `headline_id` (`headline_id`),
+  CONSTRAINT `kytt_headline_comment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`),
+  CONSTRAINT `kytt_headline_comment_ibfk_2` FOREIGN KEY (`headline_id`) REFERENCES `kytt_headline` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kytt_headline_comment`
+--
+
+LOCK TABLES `kytt_headline_comment` WRITE;
+/*!40000 ALTER TABLE `kytt_headline_comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kytt_headline_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -131,6 +231,38 @@ LOCK TABLES `kytt_organization_auth` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `kytt_question`
+--
+
+DROP TABLE IF EXISTS `kytt_question`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kytt_question` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `user_nickname` varchar(64) NOT NULL,
+  `title` varchar(128) NOT NULL,
+  `content` mediumtext NOT NULL,
+  `post_date` datetime NOT NULL,
+  `like_count` int(11) NOT NULL,
+  `comment_count` int(11) NOT NULL,
+  `forward_count` int(11) NOT NULL,
+  `view_count` int(11) NOT NULL,
+  `tag` varchar(255) CHARACTER SET armscii8 DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kytt_question`
+--
+
+LOCK TABLES `kytt_question` WRITE;
+/*!40000 ALTER TABLE `kytt_question` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kytt_question` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `kytt_tag`
 --
 
@@ -165,7 +297,7 @@ CREATE TABLE `kytt_user` (
   `nickname` varchar(64) NOT NULL,
   `realname` varchar(64) DEFAULT NULL,
   `gender` tinyint(1) DEFAULT NULL,
-  `birthday` varchar(16) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
   `avater_url` varchar(128) DEFAULT NULL,
   `telephone` varchar(16) NOT NULL,
   `email` varchar(64) NOT NULL,
@@ -182,7 +314,7 @@ CREATE TABLE `kytt_user` (
   `answer_count` int(11) unsigned NOT NULL,
   `headline_count` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,7 +323,6 @@ CREATE TABLE `kytt_user` (
 
 LOCK TABLES `kytt_user` WRITE;
 /*!40000 ALTER TABLE `kytt_user` DISABLE KEYS */;
-INSERT INTO `kytt_user` VALUES (1,'小小鸟',NULL,NULL,NULL,NULL,'18656218882','chengfeizh@gmail.com',0,'2017-06-11 20:49:37','2017-06-11 20:49:37',NULL,NULL,0,0,0,0,0,0,0);
 /*!40000 ALTER TABLE `kytt_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,66 +355,6 @@ CREATE TABLE `kytt_user_activity` (
 LOCK TABLES `kytt_user_activity` WRITE;
 /*!40000 ALTER TABLE `kytt_user_activity` DISABLE KEYS */;
 /*!40000 ALTER TABLE `kytt_user_activity` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `kytt_user_answer`
---
-
-DROP TABLE IF EXISTS `kytt_user_answer`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `kytt_user_answer` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `question_id` int(10) unsigned NOT NULL,
-  `question_title` varchar(128) NOT NULL,
-  `user_nickname` varchar(64) NOT NULL,
-  `cotent` mediumtext NOT NULL,
-  `like_count` int(11) NOT NULL,
-  `comment_count` int(11) NOT NULL,
-  `answer_date` datetime NOT NULL,
-  `title_image` varchar(128) DEFAULT NULL,
-  `summary` varchar(512) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `kytt_user_answer`
---
-
-LOCK TABLES `kytt_user_answer` WRITE;
-/*!40000 ALTER TABLE `kytt_user_answer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `kytt_user_answer` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `kytt_user_answer_comment`
---
-
-DROP TABLE IF EXISTS `kytt_user_answer_comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `kytt_user_answer_comment` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `answer_id` int(10) unsigned NOT NULL,
-  `user_nickname` varchar(64) NOT NULL,
-  `content` mediumtext NOT NULL,
-  `like_count` int(10) unsigned NOT NULL,
-  `time` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `kytt_user_answer_comment`
---
-
-LOCK TABLES `kytt_user_answer_comment` WRITE;
-/*!40000 ALTER TABLE `kytt_user_answer_comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `kytt_user_answer_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -346,107 +417,6 @@ LOCK TABLES `kytt_user_auth_oauth` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `kytt_user_headline`
---
-
-DROP TABLE IF EXISTS `kytt_user_headline`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `kytt_user_headline` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL,
-  `user_nickname` varchar(64) CHARACTER SET utf8 NOT NULL,
-  `title` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `content` mediumtext CHARACTER SET utf8 NOT NULL,
-  `post_date` datetime NOT NULL,
-  `like_count` int(11) unsigned NOT NULL,
-  `comment_count` int(11) unsigned NOT NULL,
-  `forward_count` int(11) unsigned NOT NULL,
-  `view_count` int(11) unsigned NOT NULL,
-  `tag` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `title_image` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
-  `summary` varchar(512) CHARACTER SET utf8 DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `kytt_user_headline_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `kytt_user_headline`
---
-
-LOCK TABLES `kytt_user_headline` WRITE;
-/*!40000 ALTER TABLE `kytt_user_headline` DISABLE KEYS */;
-INSERT INTO `kytt_user_headline` VALUES (2,1,'杨猫猫你真可爱','从三本到北大，每个考研的孩子都有梦可做','<p>加油</p>','2017-06-11 20:50:28',0,0,0,0,'三本,北大','https://pic4.zhimg.com/v2-0b9e8effd06f71b484f1507258e6cc2f_200x112.jpg','加油');
-/*!40000 ALTER TABLE `kytt_user_headline` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `kytt_user_headline_comment`
---
-
-DROP TABLE IF EXISTS `kytt_user_headline_comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `kytt_user_headline_comment` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `headline_id` int(10) unsigned NOT NULL,
-  `user_nickname` varchar(64) NOT NULL,
-  `content` mediumtext NOT NULL,
-  `like_count` int(11) NOT NULL,
-  `time` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `headline_id` (`headline_id`),
-  CONSTRAINT `kytt_user_headline_comment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `kytt_user` (`id`),
-  CONSTRAINT `kytt_user_headline_comment_ibfk_2` FOREIGN KEY (`headline_id`) REFERENCES `kytt_user_headline` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `kytt_user_headline_comment`
---
-
-LOCK TABLES `kytt_user_headline_comment` WRITE;
-/*!40000 ALTER TABLE `kytt_user_headline_comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `kytt_user_headline_comment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `kytt_user_question`
---
-
-DROP TABLE IF EXISTS `kytt_user_question`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `kytt_user_question` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `user_nickname` varchar(64) NOT NULL,
-  `title` varchar(128) NOT NULL,
-  `content` mediumtext NOT NULL,
-  `post_date` datetime NOT NULL,
-  `like_count` int(11) NOT NULL,
-  `comment_count` int(11) NOT NULL,
-  `forward_count` int(11) NOT NULL,
-  `view_count` int(11) NOT NULL,
-  `tag` varchar(255) CHARACTER SET armscii8 DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `kytt_user_question`
---
-
-LOCK TABLES `kytt_user_question` WRITE;
-/*!40000 ALTER TABLE `kytt_user_question` DISABLE KEYS */;
-/*!40000 ALTER TABLE `kytt_user_question` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `kytt_user_tag`
 --
 
@@ -502,6 +472,34 @@ LOCK TABLES `kytt_user_tag_score` WRITE;
 /*!40000 ALTER TABLE `kytt_user_tag_score` DISABLE KEYS */;
 /*!40000 ALTER TABLE `kytt_user_tag_score` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `new_table`
+--
+
+DROP TABLE IF EXISTS `new_table`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `new_table` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `answer_id` int(10) unsigned NOT NULL,
+  `user_nickname` varchar(64) NOT NULL,
+  `content` mediumtext NOT NULL,
+  `like_count` int(10) unsigned NOT NULL,
+  `time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `new_table`
+--
+
+LOCK TABLES `new_table` WRITE;
+/*!40000 ALTER TABLE `new_table` DISABLE KEYS */;
+/*!40000 ALTER TABLE `new_table` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -512,4 +510,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-11 13:09:34
+-- Dump completed on 2017-06-11  9:00:17
